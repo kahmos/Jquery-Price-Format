@@ -219,7 +219,7 @@
                                 
                                 $(this).bind('focusin', function()
 				{ 
-					price_it()();
+					price_it();
 				});
 			}
 			
