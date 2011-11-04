@@ -28,6 +28,7 @@
 			limit: false,
 			centsLimit: 2,
 			clearPrefix: false,
+                        clearThousandsSeparator: false,
 			allowNegative: false
 		};
 
@@ -44,6 +45,7 @@
 			var prefix = options.prefix;
 			var centsSeparator = options.centsSeparator;
 			var thousandsSeparator = options.thousandsSeparator;
+			var clearThousandsSeparator = options.clearThousandsSeparator;
 			var limit = options.limit;
 			var centsLimit = options.centsLimit;
 			var clearPrefix = options.clearPrefix;
@@ -170,8 +172,24 @@
 			{
 				if($.trim(prefix) != '' && clearPrefix)
 				{
-					var array = obj.val().split(prefix); 
+					var array = obj.val().split(prefix);
 					obj.val(array[1]);
+				}
+			}
+                        
+			// Clear dots on blur if is set to true
+			function clear_thousandsSeparator()
+			{
+				if($.trim(thousandsSeparator) != '' && clearThousandsSeparator)
+				{
+					var array = obj.val().split(thousandsSeparator);
+                                        var str = '';
+                                        $.each(array, function(i){
+                                            if(array[i] != thousandsSeparator){
+                                                str += array[i];
+                                            }
+                                        });
+					obj.val(str);
 				}
 			}
 			
@@ -190,6 +208,18 @@
 				$(this).bind('focusin', function()
 				{ 
 					add_prefix();
+				});
+			}
+			if(clearThousandsSeparator)
+			{
+				$(this).bind('focusout', function()
+				{ 
+					clear_thousandsSeparator();
+				});
+                                
+                                $(this).bind('focusin', function()
+				{ 
+					price_it()();
 				});
 			}
 			
